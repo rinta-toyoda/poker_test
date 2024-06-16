@@ -1,4 +1,4 @@
-from poker_test.models.cards import Card, Deck
+from app.models.cards import Card, Deck
 
 class Poker():
     def __init__(self) -> None:

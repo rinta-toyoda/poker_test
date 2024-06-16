@@ -1,4 +1,4 @@
-from poker_test.models.cards import Deck
+from app.models.cards import Deck
 
 class Player():
     def __init__(self, name: str, chips: int):
