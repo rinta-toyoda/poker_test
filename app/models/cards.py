@@ -37,7 +37,3 @@ class Deck():
 
     def set_card_num(self, card_num: int) -> None:
         self._card_num = card_num
-
-class Hand():
-    def __init__(self, cards: set[Card]) -> None:
-        self._cards = cards

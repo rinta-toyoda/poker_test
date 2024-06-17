@@ -1,16 +1,31 @@
-from app.models.cards import Deck
+from app.models.cards import Card
 
 class Player():
     def __init__(self, name: str, chips: int):
-        self._name = name
-        self._chips = chips
-        self._chips_bet = 0
+        self._name: str = name
+        self._chips: int = chips
+        self._hand: set[Card] = None
+        self._dropped: bool = False
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def chips(self) -> int:
+        return self._chips
 
     def set_chips(self, chips: int) -> None:
         self._chips = chips
 
-    def set_chips_bet(self, chips_bet: int) -> None:
-        self._chips_bet = chips_bet
+    def set_hand(self, hand: set[Card]) -> None:
+        self._hand = hand
+
+    def set_dropped(self, dropped: bool) -> None:
+        self._dropped = dropped
+
+    def is_dropped(self) -> bool:
+        return self._dropped
 
 class PlayerFactory():
     @staticmethod
