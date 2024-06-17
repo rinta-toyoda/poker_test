@@ -1,11 +1,13 @@
 from app.models.cards import Card
+from app.models.role import Role
 
 class Player():
     def __init__(self, name: str, chips: int):
         self._name: str = name
         self._chips: int = chips
-        self._hand: set[Card] = None
+        self._hand: set[Card] = set()
         self._dropped: bool = False
+        self._role: Role | None = None
 
     @property
     def name(self) -> str:
@@ -15,6 +17,10 @@ class Player():
     def chips(self) -> int:
         return self._chips
 
+    @property
+    def role(self) -> Role:
+        return self._role
+
     def set_chips(self, chips: int) -> None:
         self._chips = chips
 
@@ -23,6 +29,9 @@ class Player():
 
     def set_dropped(self, dropped: bool) -> None:
         self._dropped = dropped
+
+    def set_role(self, role: Role) -> None:
+        self._role = role
 
     def is_dropped(self) -> bool:
         return self._dropped

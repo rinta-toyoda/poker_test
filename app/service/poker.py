@@ -2,11 +2,12 @@ from app.models.cards import Card, Deck
 from app.models.player import Player
 from app.models.action import Action, ActionType
 
-class Poker():
+class PokerService():
     def __init__(self) -> None:
         self._deck: Deck = Deck()
         self._players: dict[str, Player] = {}
         self._player_num: int = 0
+        self._cards_on_table: set[Card] = set()
         self._minimal_bets: int = 0
         self._total_bets: int = 0
 
@@ -53,6 +54,8 @@ class Poker():
     def initialize_round(self, players: list[Player], starting_index: int = 0) -> None:
         self.initialize_players(players, starting_index)
         self.initialize_deck()
+        self.set_minimal_bets(0)
+        self.set_total_bets(0)
 
         # small blind
         small_blind_action = Action(players[starting_index-2].name, action_type=ActionType.RAISE, amount=1)
@@ -61,7 +64,6 @@ class Poker():
         # big blind
         big_blind_action = Action(players[starting_index-1].name, action_type=ActionType.RAISE, amount=2)
         self.commit_action(big_blind_action)
-
 
     def commit_action(self, action: Action) -> None:
         if action.action_type == ActionType.CALL:
@@ -75,3 +77,11 @@ class Poker():
             self._players[action.player_name].set_chips(player_chips - action.amount)
         elif action.action_type == ActionType.FOLD:
             self._players[action.player_name].set_dropped(True)
+
+    def reveal_cards(self, reveal_num: int = 1) -> None:
+        for _ in range(reveal_num):
+            card = self.draw_card()
+            self._cards_on_table.add(card)
+
+    def decide_winner(self) -> None:
+        for player in self._players.values():
