@@ -7,9 +7,13 @@ class PokerService():
         self._deck: Deck = Deck()
         self._players: dict[str, Player] = {}
         self._player_num: int = 0
-        self._cards_on_table: set[Card] = set()
+        self._cards_on_table: list[Card] = []
         self._minimal_bets: int = 0
         self._total_bets: int = 0
+
+    @property
+    def cards_on_table(self):
+        return self._cards_on_table
 
     def set_players(self, players: dict) -> None:
         self._players = players
@@ -22,6 +26,9 @@ class PokerService():
 
     def set_total_bets(self, total_bets: int) -> None:
         self._total_bets = total_bets
+
+    def add_cards_on_table(self, cards: list[Card]) -> None:
+        self._cards_on_table += cards
 
     def draw_card(self) -> Card:
         card_num = self._deck.card_num
@@ -46,10 +53,10 @@ class PokerService():
             player_dict[player.name] = player
         self.set_players(player_dict)
 
-    def starting_hand(self) -> set[Card]:
+    def starting_hand(self) -> list[Card]:
         card1 = self.draw_card()
         card2 = self.draw_card()
-        return set([card1, card2])
+        return [card1, card2]
 
     def initialize_round(self, players: list[Player], starting_index: int = 0) -> None:
         self.initialize_players(players, starting_index)
@@ -81,7 +88,4 @@ class PokerService():
     def reveal_cards(self, reveal_num: int = 1) -> None:
         for _ in range(reveal_num):
             card = self.draw_card()
-            self._cards_on_table.add(card)
-
-    def decide_winner(self) -> None:
-        for player in self._players.values():
+            self._cards_on_table.append(card)

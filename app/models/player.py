@@ -5,7 +5,7 @@ class Player():
     def __init__(self, name: str, chips: int):
         self._name: str = name
         self._chips: int = chips
-        self._hand: set[Card] = set()
+        self._hand: list[Card] = []
         self._dropped: bool = False
         self._role: Role | None = None
 
@@ -21,10 +21,14 @@ class Player():
     def role(self) -> Role:
         return self._role
 
+    @property
+    def hand(self) -> list[Card]:
+        return self._hand
+
     def set_chips(self, chips: int) -> None:
         self._chips = chips
 
-    def set_hand(self, hand: set[Card]) -> None:
+    def set_hand(self, hand: list[Card]) -> None:
         self._hand = hand
 
     def set_dropped(self, dropped: bool) -> None:

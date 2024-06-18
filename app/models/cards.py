@@ -8,9 +8,9 @@ class Suit(Enum):
     CLUBS = "clubs"
 
 class Card():
-    def __init__(self, suit: Suit, num: int) -> None:
+    def __init__(self, suit: Suit, number: int) -> None:
         self.suit = suit
-        self.num = num
+        self.number = number
 
 class Deck():
     def __init__(self) -> None:
@@ -18,14 +18,13 @@ class Deck():
         diamonds = [Card(Suit.DIAMONDS, i) for i in range(1, 14)]
         spades = [Card(Suit.SPADES, i) for i in range(1, 14)]
         clubs = [Card(Suit.CLUBS, i) for i in range(1, 14)]
-        unshuffled_cards = hearts + diamonds + spades + clubs
-        shuffled_cards = random.shuffle(unshuffled_cards)
-
-        self._card_num = len(shuffled_cards)
-        self._cards = set(shuffled_cards)
+        cards = hearts + diamonds + spades + clubs
+        random.shuffle(cards)
+        self._card_num = len(cards)
+        self._cards = cards
 
     @property
-    def cards(self) -> set[Card]:
+    def cards(self) -> list[Card]:
         return self._cards
 
     @property
